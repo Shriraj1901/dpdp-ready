@@ -4,6 +4,8 @@
 
 Find where your app handles personal data before India's DPDP Rules apply in full (13 May 2027).
 
+**Website:** https://shriraj1901.github.io/dpdp-ready/ · **Sample report:** https://shriraj1901.github.io/dpdp-ready/sample-report.html
+
 `dpdp-ready` scans your code (and, optionally, your website) and tells you:
 
 - **What personal data your code handles.** Emails, phone numbers, Aadhaar, PAN, financial, health and children's data and more, each with file and line.
@@ -21,7 +23,7 @@ Requires Node.js 20 or later. Not yet published to npm; run from a clone (no ins
 
 ```bash
 git clone https://github.com/Shriraj1901/dpdp-ready.git
-node dpdp-ready/dist/cli.js scan /path/to/your/app --md report.md
+node dpdp-ready/dist/cli.js scan /path/to/your/app --html report.html
 ```
 
 Options:
@@ -29,6 +31,7 @@ Options:
 | Option | What it does |
 |---|---|
 | `--md <file>` | Full report with evidence, reasons and fixes |
+| `--html <file>` | The same report as a self-contained web page (prints cleanly to PDF) |
 | `--json <file>` | Machine-readable results |
 | `--sarif <file>` | SARIF for GitHub code scanning |
 | `--website <url> --authorized` | Also check the site's homepage and privacy notice. Only scan sites you own or have permission to scan. |
@@ -75,5 +78,7 @@ npm test          # node:test, no extra dependencies
 npm run typecheck
 node src/cli.ts scan .   # Node 23.6+ runs the TypeScript source directly
 ```
+
+The website lives in `site-src/` and is built into `docs/` with `node site-src/build.mjs`. The sample report comes from the fictional app in `examples/demo-shop`.
 
 Licensed under Apache-2.0.

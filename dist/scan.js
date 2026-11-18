@@ -8,7 +8,7 @@ import { findHardcodedPersonalData } from "./detectors/hardcoded.js";
 import { findProcessors, processorFindings } from "./detectors/processors.js";
 import { scanWebsite } from "./website.js";
 import { DISCLAIMER } from "./dpdp.js";
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 const CODE_LIMITATIONS = [
     "Static analysis of source files only: databases, logs, cloud configuration, backups and vendor contracts were not inspected.",
     "Personal data is detected from field names and code patterns; fields with unusual names may be missed, and some matches may not be personal data.",

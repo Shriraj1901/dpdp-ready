@@ -5,6 +5,7 @@ import { parseArgs } from "node:util";
 import { scan, VERSION } from "./scan.js";
 import { toMarkdown, toText } from "./report/markdown.js";
 import { toSarif } from "./report/sarif.js";
+import { toHtml } from "./report/html.js";
 import { SEVERITY_ORDER } from "./types.js";
 const HELP = `DPDP Ready ${VERSION}: map personal data, third-party services and leaked secrets in your code.
 Runs entirely on your machine. Nothing is uploaded.
@@ -14,6 +15,8 @@ Usage:
 
 Options:
   --md <file>          Write a Markdown report
+  --html <file>        Write a self-contained HTML report (prints cleanly to PDF)
+  --title <text>       Title for the HTML report
   --json <file>        Write a JSON report
   --sarif <file>       Write SARIF (for GitHub code scanning)
   --website <url>      Also check a website's homepage and privacy notice
@@ -37,6 +40,8 @@ export async function main(argv) {
             allowPositionals: true,
             options: {
                 md: { type: "string" },
+                html: { type: "string" },
+                title: { type: "string" },
                 json: { type: "string" },
                 sarif: { type: "string" },
                 website: { type: "string" },
@@ -83,13 +88,15 @@ export async function main(argv) {
     };
     if (o.md)
         write(o.md, toMarkdown(result));
+    if (o.html)
+        write(o.html, toHtml(result, { title: o.title }));
     if (o.json)
         write(o.json, JSON.stringify(result, null, 2));
     if (o.sarif)
         write(o.sarif, JSON.stringify(toSarif(result), null, 2));
     if (!o.quiet) {
         console.log(toText(result));
-        const written = [o.md, o.json, o.sarif].filter(Boolean);
+        const written = [o.md, o.html, o.json, o.sarif].filter(Boolean);
         if (written.length)
             console.log(`\nReports written: ${written.join(", ")}`);
         else

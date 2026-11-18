@@ -1,6 +1,6 @@
 {
   "name": "dpdp-ready",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Open-source scanner that maps personal data, third-party processors and leaked secrets in your code and website, to help engineering teams prepare for India's DPDP Act. Runs locally; your code never leaves your machine.",
   "license": "Apache-2.0",
   "type": "module",

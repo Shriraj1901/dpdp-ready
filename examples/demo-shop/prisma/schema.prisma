@@ -1,0 +1,34 @@
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  phone         String
+  firstName     String
+  lastName      String
+  dateOfBirth   DateTime?
+  gender        String?
+  passwordHash  String
+  createdAt     DateTime  @default(now())
+  addresses     Address[]
+  kyc           KycRecord?
+}
+
+model Address {
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  addressLine1  String
+  city          String
+  pincode       String
+}
+
+model KycRecord {
+  id            Int     @id @default(autoincrement())
+  userId        Int     @unique
+  panNumber     String
+  aadhaarNumber String
+}
+
+model PaymentMethod {
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  upiId         String?
+}

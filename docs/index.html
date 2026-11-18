@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DPDP Ready — find personal data in your code</title>
+  <meta name="description" content="Free, open-source scanner that maps personal data, third-party services and leaks in your code and website, to help Indian teams prepare for the DPDP Rules. Runs on your machine.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta property="og:title" content="DPDP Ready — find personal data in your code">
+  <meta property="og:description" content="Free, open-source scanner for DPDP readiness. Your code never leaves your machine.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 7v8c0 7.5 5.1 13.6 12 15 6.9-1.4 12-7.5 12-15V7z' fill='%232547d0'/%3E%3Cpath d='m11 16 3.5 3.5L21 13' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="DPDP Ready home">
+      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.5 5.1 13.6 12 15 6.9-1.4 12-7.5 12-15V7z" fill="currentColor" opacity=".9"/><path d="m11 16 3.5 3.5L21 13" stroke="var(--bg)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      DPDP Ready
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#scanner" class="hide-sm">Scanner</a>
+      <a href="#assessment">Assessment</a>
+      <a href="#faq" class="hide-sm">FAQ</a>
+      <a href="https://github.com/Shriraj1901/dpdp-ready">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <span class="eyebrow">For Indian startups and dev agencies · DPDP Rules apply from 13 May 2027</span>
+    <h1>Know where personal data lives in your app.</h1>
+    <p class="lede">DPDP Ready is a free, open-source scanner that maps the personal data, third-party services and leaks in your code and website, with the file and line for every finding. It runs on your machine. Your code never leaves it.</p>
+    <div class="ctas">
+      <a class="btn primary" href="https://github.com/Shriraj1901/dpdp-ready#quick-start">Try the free scanner →</a>
+      <a class="btn" href="#assessment">Get a free assessment</a>
+    </div>
+
+    <div class="term" role="img" aria-label="Example scanner output for a fictional demo shop app">
+<pre><span class="dim">$ node dpdp-ready/dist/cli.js scan ./demo-shop</span>
+DPDP Ready 0.2.0 — scanned 9 files in demo-shop
+Findings: <span class="hi">3 high</span>, 0 medium, 4 low, 7 info
+
+Personal data found (10 types):
+  - Email address: 3 location(s) in 3 file(s)
+  - Phone number: 4 location(s) in 4 file(s)
+  ! Aadhaar number: 2 location(s) in 2 file(s)
+  ! PAN: 1 location(s) in 1 file(s)
+  …
+
+Third-party services (7):
+  - Meta (Facebook) Pixel / SDK [Advertising]
+  - Google Analytics / Tag Manager [Analytics]
+  - Razorpay [Payments]
+  …
+
+<span class="hi">[HIGH]</span> Personal data may be written to logs (Email address, OTP, Phone number)
+      src/lib/auth.ts:5
+<span class="hi">[HIGH]</span> Hardcoded password or secret in source code
+      src/lib/payments.ts:4</pre>
+    </div>
+    <p class="fine">Real output from a <a href="sample-report.html">fictional demo app</a> with deliberate mistakes.</p>
+  </div>
+
+  <section id="scanner">
+    <div class="wrap">
+      <h2>What the scanner finds</h2>
+      <p class="sub">A starting map for your engineers and whoever reviews your DPDP readiness. Every finding shows its evidence, a confidence level, why it matters and what to do.</p>
+      <div class="grid">
+        <div class="card"><h3>Personal data in your code</h3><p>Emails, phone numbers, Aadhaar, PAN, addresses, dates of birth, card, bank and UPI details, health and children's data, found in schemas, models, forms and APIs.</p></div>
+        <div class="card"><h3>Who receives it</h3><p>About 50 services that usually get personal data: analytics, ads, payments, SMS and email, support chat, AI providers and more, found from your dependencies and code.</p></div>
+        <div class="card"><h3>Risky patterns</h3><p>Secrets committed to the repo, personal data written to logs, and real people's details hardcoded in source code.</p></div>
+        <div class="card"><h3>Your website</h3><p>Trackers loaded by your homepage, cookies set before consent, and a keyword check of your privacy notice for key DPDP elements.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Runs where your code already is</h2>
+      <p class="sub">On a laptop in seconds, or on every pull request with the GitHub Action. A 36,000-file codebase scanned in about 11 seconds in our tests.</p>
+      <div class="steps">
+        <div class="step"><h3>Run it locally or in CI</h3><p>No account, no upload, no runtime dependencies.</p></div>
+        <div class="step"><h3>Read the report</h3><p>Markdown, HTML, JSON, or SARIF that GitHub shows inline in pull requests.</p></div>
+        <div class="step"><h3>Fix and re-run</h3><p>Fail the build on high-severity findings so new leaks don't ship.</p></div>
+      </div>
+      <div class="two">
+        <div>
+          <p class="label">Command line</p>
+<pre class="code">git clone https://github.com/Shriraj1901/dpdp-ready.git
+node dpdp-ready/dist/cli.js scan ./your-app \
+  --html report.html</pre>
+        </div>
+        <div>
+          <p class="label">GitHub Action</p>
+<pre class="code">- uses: actions/checkout@v7
+- uses: Shriraj1901/dpdp-ready@v0
+  with:
+    fail-on: high</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Private by design</h2>
+      <p class="sub">A privacy tool should not create new privacy risks.</p>
+      <ul class="ticks">
+        <li>The scanner runs on your machine or your CI runner. No code, data or results are sent to us.</li>
+        <li>Open source under Apache-2.0, so you can read exactly what it does.</li>
+        <li>Secrets and personal data are masked in every report.</li>
+        <li>This website uses no cookies, no analytics and no third-party scripts.</li>
+      </ul>
+      <p style="margin-top:24px"><a class="btn" href="sample-report.html">See a sample report →</a></p>
+    </div>
+  </section>
+
+  <section id="assessment">
+    <div class="wrap offer">
+      <div>
+        <h2>DPDP engineering readiness assessment</h2>
+        <p class="sub">Want a person to go through it with you? With your written permission, we run the scanner on your app, review every result by hand, and give your team a clear report and a fix list.</p>
+        <p class="label">You get</p>
+        <ul class="ticks">
+          <li>An inventory of the personal data your app collects, with code locations</li>
+          <li>The third-party services that receive it, and what to check with each</li>
+          <li>A website check: trackers, cookies and your privacy notice</li>
+          <li>A prioritised fix list for your developers</li>
+          <li>A 45-minute walkthrough call with your team</li>
+        </ul>
+        <p class="label" style="margin-top:24px">How it works</p>
+        <ul class="ticks">
+          <li>20-minute intro call to agree the scope</li>
+          <li>You run the scanner yourself while we guide you, or give us temporary read-only access. Your choice.</li>
+          <li>Report within 3 working days, then the walkthrough</li>
+        </ul>
+      </div>
+      <aside class="price" aria-label="Pricing">
+        <p class="label">Pricing</p>
+        <p class="big">Free</p>
+        <p class="then">for the first 5 companies, in exchange for honest feedback. After that, ₹14,999 per app.</p>
+        <a class="btn primary" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#104;&#114;&#101;&#101;&#114;&#97;&#106;&#106;&#97;&#100;&#104;&#97;&#118;&#49;&#57;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=DPDP%20readiness%20assessment%20request&amp;body=Hi%2C%0A%0AI'd%20like%20a%20DPDP%20engineering%20readiness%20assessment.%0A%0ACompany%20%2F%20website%3A%0AWhat%20the%20app%20does%3A%0AMain%20tech%20stack%3A%0AApprox.%20number%20of%20users%3A%0ABest%20time%20for%20a%2020-minute%20call%3A%0A%0AThanks%2C">Request an assessment</a>
+        <p class="fine">Or email <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#104;&#114;&#101;&#101;&#114;&#97;&#106;&#106;&#97;&#100;&#104;&#97;&#118;&#49;&#57;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#115;&#104;&#114;&#101;&#101;&#114;&#97;&#106;&#106;&#97;&#100;&#104;&#97;&#118;&#49;&#57;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>. This is an engineering review, not legal advice or a compliance certificate. We don't name you as a customer unless you say yes in writing.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Questions</h2>
+      <details><summary>Is this legal advice or a compliance certificate?</summary><p>No. DPDP Ready shows engineering facts: where personal data appears in your code and which services receive it. Whether you comply with the DPDP Act depends on your purposes, consent, contracts and processes, and should be reviewed by a qualified professional.</p></details>
+      <details><summary>Do you see my code?</summary><p>Not when you use the scanner: it runs entirely on your machine or CI. For an assessment, you can run it yourself and share only the report, or give us temporary read-only access that you revoke afterwards. Either way, we delete any copy of your code when the assessment ends.</p></details>
+      <details><summary>What is the DPDP Act?</summary><p>India's Digital Personal Data Protection Act, 2023. Together with the DPDP Rules, 2025, it sets out how businesses must collect, use, protect and delete personal data. Most obligations for businesses apply from 13 May 2027.</p></details>
+      <details><summary>Which languages and frameworks does it support?</summary><p>JavaScript and TypeScript (including React, Next.js and Node), Python, Java, Kotlin, Go, PHP, Ruby, Dart, SQL and Prisma schemas, plus common dependency files. Detection is pattern-based, so it can miss unusual field names and flag some fields that aren't personal data. Each finding shows its confidence.</p></details>
+      <details><summary>Is the scanner really free?</summary><p>Yes. It's open source under Apache-2.0, including commercial use. The paid part is the hands-on assessment and, later, a hosted dashboard for teams.</p></details>
+      <details><summary>Who is behind DPDP Ready?</summary><p>An independent, early-stage project from India, built by a founder working directly with its first users. If you'd like to shape it, <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#104;&#114;&#101;&#101;&#114;&#97;&#106;&#106;&#97;&#100;&#104;&#97;&#118;&#49;&#57;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=Hello%20from%20the%20DPDP%20Ready%20website&amp;body=">get in touch</a>.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 DPDP Ready · Not legal advice</span>
+    <span><a href="privacy.html">Privacy notice</a> · <a href="https://github.com/Shriraj1901/dpdp-ready">GitHub</a> · <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#104;&#114;&#101;&#101;&#114;&#97;&#106;&#106;&#97;&#100;&#104;&#97;&#118;&#49;&#57;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;?subject=Hello%20from%20the%20DPDP%20Ready%20website&amp;body=">Contact</a></span>
+  </div>
+</footer>
+</body>
+</html>

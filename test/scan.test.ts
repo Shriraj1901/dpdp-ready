@@ -125,3 +125,18 @@ test("website scan against a local test site", async () => {
     server.close();
   }
 });
+
+test("HTML report is self-contained, escaped and secret-free", async () => {
+  const { toHtml } = await import("../src/report/html.ts");
+  const r = await scan({ root: dir });
+  r.findings.push({ ...r.findings[0], id: "x", title: '<script>alert("x")</script>', evidence: "<img src=x onerror=alert(1)>" });
+  const html = toHtml(r, { title: "Sample <b>report</b>" });
+  assert.ok(html.startsWith("<!doctype html>"));
+  for (const h of ["Personal data inventory", "Third-party services", "Findings", "Limitations"]) assert.ok(html.includes(h), h);
+  assert.ok(!/<script/i.test(html), "no scripts at all");
+  assert.ok(!html.includes("<img"), "untrusted HTML is escaped");
+  assert.ok(html.includes("&lt;script&gt;"));
+  assert.ok(html.includes("Sample &lt;b&gt;report&lt;/b&gt;"));
+  assert.ok(!/<(link|iframe)\b/i.test(html) && !/\bsrc=["']https?:/i.test(html), "no external resources");
+  assert.ok(!html.includes(FAKE_AWS), "secret must not appear in the HTML report");
+});

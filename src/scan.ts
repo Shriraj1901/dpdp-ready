@@ -10,7 +10,7 @@ import { findProcessors, processorFindings } from "./detectors/processors.ts";
 import { scanWebsite } from "./website.ts";
 import { DISCLAIMER } from "./dpdp.ts";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 
 export interface ScanOptions {
   root: string;
