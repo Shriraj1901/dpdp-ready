@@ -1,0 +1,5 @@
+node_modules/
+*.sarif
+dpdp-ready-report.*
+dpdp-ready.json
+# dist/ is committed on purpose: the GitHub Action runs dist/cli.js directly.

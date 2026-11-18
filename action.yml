@@ -1,0 +1,51 @@
+name: "DPDP Ready scan"
+description: "Map personal data, third-party services and leaked secrets in your code. Runs inside your GitHub Actions runner; code is not sent anywhere."
+author: "DPDP Ready"
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  path:
+    description: "Folder to scan, relative to the repository root."
+    required: false
+    default: "."
+  fail-on:
+    description: "Fail the job if any finding is at or above this severity: high, medium, low or none."
+    required: false
+    default: "high"
+  upload-sarif:
+    description: "Upload results to GitHub code scanning. Free for public repositories; private repositories need GitHub code scanning enabled."
+    required: false
+    default: "false"
+
+outputs:
+  report:
+    description: "Path to the Markdown report."
+    value: ${{ steps.scan.outputs.report }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run DPDP Ready
+      id: scan
+      shell: bash
+      env:
+        SCAN_PATH: ${{ inputs.path }}
+        FAIL_ON: ${{ inputs.fail-on }}
+      run: |
+        set +e
+        node "${GITHUB_ACTION_PATH}/dist/cli.js" scan "$SCAN_PATH" \
+          --md dpdp-ready-report.md --sarif dpdp-ready.sarif --json dpdp-ready.json \
+          --fail-on "$FAIL_ON"
+        code=$?
+        echo "report=dpdp-ready-report.md" >> "$GITHUB_OUTPUT"
+        if [ -f dpdp-ready-report.md ]; then cat dpdp-ready-report.md >> "$GITHUB_STEP_SUMMARY"; fi
+        exit $code
+
+    - name: Upload SARIF to code scanning
+      if: ${{ always() && inputs.upload-sarif == 'true' }}
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: dpdp-ready.sarif
+        category: dpdp-ready
